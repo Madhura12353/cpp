@@ -1,0 +1,451 @@
+//
+//
+//
+//
+
+#include <iostream>
+# include<string>
+#include<fstream>
+#include <cstdlib>
+# include<iomanip>
+using namespace std;
+void reverseArray(char remainderArray[], char reversedArray[], int& lgsize);
+void convert10tob(int inputNumber, int baseNumber, ostream& outputfile);
+char displeyFinalAnswer(char remainderArray[], int &lgsize, ostream& outputfile);
+int getlgsize(char remainderArray[]);
+int convertanybase2decimal(char charArray[], int base);
+bool isValidArray(char charArray[], int& base);
+char getValidArray(char charArray[], int& base);
+int readingDataFromFile(double sourseBase[], double targetBase[], char initialNumber[][10], ifstream & inputFile);
+
+void openTheInputFile(ifstream& inputFile);
+string validateInput(double sBase, double tBase, char iNumber[]);
+void createOutputFile(ofstream& outputfile);
+void anyBase2anybase(double base, double tarbase, char initialNumber[], ostream& outputfile);
+void createtable(double sourseBase[], double targetBase[], char initialNumber[][10], ostream& outputfile);
+//=====================================================================
+double getNumber();
+int getInteger();
+int getPositiveInteger();
+int getIntInrange(int min, int max);
+int getBaseInRange(int min, int max);
+void printMenu();
+int main()
+
+{
+	ofstream outputfile;
+	ifstream inputFile;
+	string filename;
+	const int SIZE1 = 30;
+	double sourseBase[SIZE1], targetBase[SIZE1];
+	char initialNumber[SIZE1][10];
+
+	int choice=0,length, finalAnswer;
+
+	int number, base, currentbase, userInput, baseNumber,anyb2decimal;
+	const int SIZE = 70;
+	char finalanswer[SIZE];
+	char charArray[SIZE];
+	int currentBase = 10;
+	 
+
+	const  int
+		//SIZE = 30,
+		MIN_BASE = 2,
+		MAX_BASE = 36;
+	
+	system("color E0");
+
+	
+	while (choice!= 4)
+	{
+		printMenu();
+
+		cout << "\n\nchoice: ";
+		choice = getIntInrange(1, 4);//  getIntInRange(1, 4)
+
+		switch (choice)
+		{
+		case 1:
+			cout << "Enter the integer to convert(N): ";
+			userInput = getInteger();
+			cout << "Enter the base <= N: ";
+			baseNumber = getBaseInRange(MIN_BASE, MAX_BASE);
+			convert10tob(userInput, baseNumber, outputfile);
+			system("pause"); system("CLS"); continue;
+		case 2:cout << "\nWhat is the current base? ";
+			baseNumber = getBaseInRange(MIN_BASE, MAX_BASE);
+			cout << "What is the number you want to convert to decimal? ";
+			getValidArray(charArray, baseNumber);
+			anyb2decimal = convertanybase2decimal(charArray, baseNumber);
+			cout << "\n the final answer is: " << anyb2decimal;
+			system("pause"); system("CLS"); continue;
+		case 3:cout << "\n reading data from file: \n";
+			openTheInputFile(inputFile);
+			length = readingDataFromFile(sourseBase, targetBase, initialNumber, inputFile);
+			finalAnswer;
+			createOutputFile(outputfile);
+			createtable(sourseBase, targetBase, initialNumber, outputfile);
+			inputFile.close();
+			system("pause"); system("CLS"); continue;
+		case 4:cout << "\n Thank you for converting with us.Hit ENTER to end the program.";
+			cin.get();
+		}
+
+		
+
+	}
+	
+}
+
+
+void convert10tob(int inputNumber, int baseNumber, ostream& outputfile)
+{
+	char remainderArray[70];
+	char digits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	int counter = 0;
+	char reversedArray[70];
+
+	while (inputNumber > 0)
+	{
+		remainderArray[counter] = digits[inputNumber % baseNumber];
+		inputNumber /= baseNumber;
+		counter++;
+	}
+	remainderArray[counter] = '\0';
+
+	int lgsize = getlgsize(remainderArray);
+
+	reverseArray(remainderArray, reversedArray, lgsize);
+
+
+	displeyFinalAnswer(remainderArray, lgsize, outputfile);
+
+
+}
+
+
+
+int getlgsize(char remainderArray[])
+{
+	int lgsize = 0;
+	for (int i = 0; remainderArray[i] != '\0'; i++)
+	{
+		lgsize++;
+	}
+
+	return lgsize;
+}
+
+void reverseArray(char remainderArray[], char reversedArray[], int& lgsize)
+{
+
+	int j = 0;
+	for (int i = (lgsize - 1); i >= 0; i--)
+	{
+		reversedArray[j] = remainderArray[i];
+		j++;
+	}
+	reversedArray[j] = '\0';
+
+	for (int i = 0; i < lgsize; i++)
+	{
+		remainderArray[i] = reversedArray[i];
+	}
+}
+
+char displeyFinalAnswer(char remainderArray[], int &lgsize, ostream& outputfile)
+{
+	for (int i = 0; i < lgsize; i++)
+	{
+		outputfile << remainderArray[i];
+		cout << remainderArray[i];
+	}
+	return remainderArray[lgsize];
+}
+
+
+
+
+int convertanybase2decimal(char charArray[], int base)
+{
+	int total = 0;
+	int length = getlgsize(charArray);
+
+	for (int i = 0; i < length; i++)
+	{
+		if (charArray[i] >= '0' && charArray[i] <= '9')
+		{
+			total += (charArray[i] - '0')*pow(base, length - i - 1);
+		}
+		else if (charArray[i] >= 'A' && charArray[i] <= 'Z')
+		{
+			total += (10 + (charArray[i] - 'A'))*pow(base, length - i - 1);
+		}
+		else if (charArray[i] >= 'a' && charArray[i] <= 'z')
+		{
+			total += (10 + (charArray[i] - 'a'))*pow(base, length - i - 1);
+		}
+	}
+	return total;
+}
+
+bool isValidArray(char charArray[], int& base)
+{
+
+	int   lgsize = getlgsize(charArray);
+	for (int i = 0; i < lgsize; i++)
+	{
+		if (charArray[i] < '0' || charArray[i] > 'z')
+		{
+			return false;
+		}
+		else if (charArray[i] >= '0' && charArray[i] <= '9')
+		{
+			if (int(charArray[i]) - '0' > base)
+				return false;
+		}
+		else if (charArray[i] >= 'A' && charArray[i] <= 'Z')
+		{
+			if ((10 + (charArray[i] - 'A')) > base)
+				return false;
+		}
+		else if (charArray[i] >= 'a' && charArray[i] <= 'z')
+		{
+			if ((10 + (charArray[i] - 'a')) > base)
+				return false;
+		}
+		else return true;
+	}
+	return true;
+}
+
+char getValidArray(char charArray[], int& base)
+{
+	cin >> charArray;
+	bool isValid = isValidArray(charArray, base);
+
+
+	int  lgsize = 0;
+	while (!isValid)
+	{
+		cout << "       Your number contains invalid digits. Try again:";
+		cin >> charArray;
+		isValid = isValidArray(charArray, base);
+		lgsize = getlgsize(charArray);
+
+
+	}
+
+	return charArray[lgsize];
+}
+
+
+
+void openTheInputFile(ifstream& inputFile)
+{
+
+	string filename;
+	cout << "What file contains your data? ";
+	cin >> ws; getline(cin, filename);
+
+	inputFile.open(filename);
+	while (inputFile.fail())
+	{
+		system("color b3");
+		cout << "\aFailed to open file"
+			<< "         Try again: ";
+		cin >> ws; getline(cin, filename);
+		inputFile.open(filename);
+	}
+	cout << "File " << filename << " was successfully connected!";
+
+}
+
+int readingDataFromFile(double sourseBase[], double targetBase[], char initialNumber[][10], ifstream & inputFile)
+{
+
+	double num1, num2;
+
+	int counter = 0;
+	const int ARRAY_LENGTH = 10;
+	char num3[ARRAY_LENGTH];
+
+	int i = 0;
+	while (!(inputFile.eof()))
+	{
+		inputFile >> num1 >> num2;
+		if (inputFile.eof()) break;
+		sourseBase[i] = num1;
+
+		targetBase[i] = num2;
+
+		inputFile >> num3;
+		if (inputFile.eof()) break;
+		for (int j = 0; j < 6; j++)
+		{
+			initialNumber[i][j] = num3[j];
+
+		}
+
+		i++;
+	}
+
+	return i;
+}
+
+void createOutputFile(ofstream& outputfile)
+{
+	string outputFileName;
+	cout << "\nWhere do you want the convertions to go to??\n"
+		<< "\t(do not forget the file name extension) ";
+	cin >> ws;
+	getline(cin, outputFileName);
+
+	outputfile.open(outputFileName);
+
+	while (outputfile.fail())
+	{
+		system("color b3");
+		cout << "\tFailed to open file: " << "\"" << outputFileName << "\".\n"
+			<< "\tTry again: ";
+		cin >> ws;
+		getline(cin, outputFileName);
+		outputfile.open(outputFileName);
+	}
+	cout << outputFileName << "file is opened succesfully \n";
+}
+string validateInput(double sBase, double tBase, char iNumber[])
+{
+	int temp = int(sBase);
+	if (sBase != int(sBase))
+		return  "     illegeal  sourseBase base";
+	else if (sBase > 36 || sBase < 2)
+		return "     Illegal  base (not in [2, 36])";
+	else if (tBase > 36 || tBase < 2)
+		return "     Illegal  base (not in [2, 36])";
+	else if (tBase != int(tBase))
+		return  "    illegeal  targetBase base";
+	else if (!isValidArray(iNumber, temp))
+		return "     illegal initial number";
+	else
+		return "valid";
+}
+
+
+void anyBase2anybase(double base, double tarbase, char initialNumber[], ostream& outputfile)
+{
+	int finalanswer;
+	finalanswer=convertanybase2decimal(initialNumber, base);
+	convert10tob(finalanswer, tarbase, outputfile);
+}
+
+
+
+
+void createtable(double sourseBase[], double targetBase[], char initialNumber[][10], ostream& outputfile)
+{
+	string result[30];
+	string validationmsg;
+	cout << endl << endl << setw(10) << "sourse base" << setw(15) << "target base" << setw(15) << "Initial Number" << setw(15) << "result\n";
+	outputfile << endl << endl << setw(10) << "sourse base" << setw(15) << "target base" << setw(15) << "Initial Number" << setw(15) << "result\n";
+	for (int i = 0; i < 10; i++)
+	{
+		cout << setw(8) << sourseBase[i] << setw(10) << targetBase[i] << setw(19) << initialNumber[i] << setw(15);
+		outputfile << setw(8) << sourseBase[i] << setw(10) << targetBase[i] << setw(19) << initialNumber[i] << setw(15);
+		validationmsg = validateInput(sourseBase[i], targetBase[i], initialNumber[i]);
+		result[i] = validationmsg;
+		
+		if (result[i] == "valid")
+			anyBase2anybase(sourseBase[i], targetBase[i], initialNumber[i], outputfile);	
+		else
+		{
+			cout << result[i];
+			outputfile << result[i];
+		}
+		cout << endl << endl;
+		outputfile << endl << endl;
+	}
+}
+
+//=======================================================================
+int getPositiveInteger()
+{
+	int userInput = getInteger();
+
+	while (userInput <= 0)
+	{
+		cout << "        Your number must be greater than or equal to 1.\n"
+			<< "         Try again:";
+		userInput = getInteger();
+	}
+
+	return userInput;
+}
+
+int getIntInrange(int min, int max)
+{
+	int userInput = getPositiveInteger();
+	while (userInput > max || userInput< min)
+	{
+		cout << "\n          Your number must be less than or equal to " << max << "."
+			<< "\n          Try Again: ";
+		userInput = getPositiveInteger();
+	}
+	return userInput;
+}
+
+
+
+double getNumber()   //   DONE
+{
+	double number;
+	while (!(cin >> number))
+	{
+		cout << "        Please no letter. Try Again: ";
+		cin.clear(); cin.ignore(80, '\n');
+
+	}
+	cin.ignore(80, '\n');
+	return number;
+}
+
+
+// This function ask for integer if its double/ character it will ask again for integer 
+int getInteger()     //   DONE
+{
+	double userInput = getNumber();
+
+	while (int(userInput) != userInput)
+	{
+		cout << "\t Your number is not an integer!";
+		userInput = getNumber();
+	}
+
+	return int(userInput);
+}
+
+int getBaseInRange(int min, int max)
+{
+	int userInput = getInteger();
+
+	while (userInput < min || userInput >max)
+	{
+		cout << "        Invalid base. Base must be <= " << max << " Please try again:";  // what if less than teh min
+		userInput = getInteger();
+	}
+
+	return userInput;
+}
+
+void printMenu()
+{
+	cout
+		<< "\n1] Convert from decimal to another base"
+		<< "\n2] Convert from an other base to decimal"
+		<< "\n3] Do conversions from an input file"
+		<< "\n4] Exit the program.";
+}
+
+
+

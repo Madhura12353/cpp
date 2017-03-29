@@ -1,0 +1,167 @@
+
+#include<iostream>
+#include <cstdio>
+using namespace std;
+
+int getInteger();
+int getIntegerInRange();
+//char *toBaseWhatever(int num, int rad);
+//char *convert10tob(int N, int b);
+char convert10tob(int N, int b);
+//char  conversiontoChar(int remainder);
+int getLogicalSize(char remainderArray[]);
+//void displyArrayElement(char buf[], int logicalSize);
+void displeyFinalAnswer(char remainderArray[], int logicalSize);
+int main()
+{
+
+
+	int userInput, baseNumber;
+	cout << "Enter the integer to convert(N): ";
+	userInput = getInteger();
+
+	cout << "Enter the base <= N: ";
+	baseNumber = getIntegerInRange();
+	if (userInput != 0)
+	{
+		cout << "Conversion Done " << endl;
+		convert10tob(userInput, baseNumber);
+	}
+	else
+		cout << "0" << endl;
+
+	system("pause");;
+}
+
+
+char convert10tob(int inputNumber, int baseNumber)
+{
+	char digits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	int remainder, division, index, logicalSize=0;
+	char letter;
+	const int ARRAY_LENGTH = 70;
+	char remainderArray[ARRAY_LENGTH];
+
+
+
+
+	/*index = 0;
+	if (inputNumber == 0)
+		return 0;
+	else if (inputNumber > 0)
+	{
+	   while (inputNumber> 0)
+		{
+			remainderArray[index] = digits[inputNumber % baseNumber];
+
+			cout << "remainder: " << remainderArray[index] << endl;
+			
+			inputNumber /= baseNumber;
+
+			cout << "\ndivision: " << inputNumber << endl;
+			index++;
+
+		}
+	} */
+
+
+	for (int i = 0; i < ARRAY_LENGTH && inputNumber != 0; i++) 
+	{
+		remainderArray[i] = digits[inputNumber % baseNumber];
+		cout << "remainder: " << remainderArray[i] << endl;
+		inputNumber /= baseNumber;
+		cout << "\ndivision: " << inputNumber << endl;
+		if (inputNumber == 0)
+			remainderArray[i+1] = '\0';
+
+	}
+
+	cout << "Computing logical length of an array" << endl;
+	logicalSize = strlen(remainderArray);
+
+	 cout << "\n Logical size of the given array is: " << logicalSize << endl;
+
+	displeyFinalAnswer(remainderArray, logicalSize);
+	return 0;
+	
+}
+
+
+void displeyFinalAnswer(char remainderArray[], int logicalSize)
+{
+	cout << "\n The final number is: ";
+	for (int i = (logicalSize -1);i >= 0; i--)
+	{
+		cout << remainderArray[i];
+	}
+
+}
+
+
+/*int getLogicalSize(char remainderArray[])
+
+{
+	int count=0;
+
+	/*for (int i = 0; i < strlen(remainderArray); i++)
+	{
+		
+			count = count + 1;
+		
+			
+	} */
+	/*cout << "Logical length is: " << strlen(remainderArray) << endl;
+
+	return 0;
+}*/
+
+
+
+
+
+
+double getNumber()   //   DONE
+{
+	double number;
+	while (!(cin >> number))
+	{
+		cout << "        Please no letter. Try Again: ";
+		cin.clear(); cin.ignore(80, '\n');
+
+	}
+	cin.ignore(80, '\n');
+	return number;
+}
+
+
+// This function ask for integer if its double/ character it will ask again for integer 
+int getInteger()     //   DONE
+{
+	double userInput = getNumber();
+	// cin.ignore(80, '\n');
+	// cin >> userinput;
+	while (int(userInput) != userInput  || userInput > 10000000000)
+	{
+		cin.clear(); //cin.ignore(80, '\n');
+		cout << "\t Your number is not an integer!";
+		//cin >> userinput; cin.ignore(80, '\n');
+		userInput = getNumber();
+	}
+
+	return int(userInput);
+}
+
+int getIntegerInRange()
+{
+	double userInput = getInteger();
+
+	while (userInput < 2 || userInput >36)
+	{
+		cout << "        Invalid base. Base must be <= 36. Please try again:";
+		userInput = getInteger();
+	}
+
+
+
+	return userInput;
+}

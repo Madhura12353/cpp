@@ -1,0 +1,155 @@
+
+#include<iostream>
+#include <cstdio>
+using namespace std;
+//char *toBaseWhatever(int num, int rad);
+void convert10tob(int N, int b);
+char  conversiontoChar(int remainder);
+	int main()
+	{
+		int N, b;
+		cout << "Enter the integer to convert(N): ";
+		cin >> N;
+		cout << "Enter the base <= N: ";
+		cin >> b;
+		if (N != 0)
+		{
+			convert10tob(N, b);
+			cout << endl;
+		}
+		else
+			cout << "0" << endl;
+
+		system("pause");;
+}
+
+
+/*char *toBaseWhatever(int num, int rad)
+{
+	char digits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	int i;
+	char buf[66];   /* enough space for any 64-bit in base 2 */
+
+					/* bounds check for radix */
+/*	if (rad < 2 || rad > 62)
+		return NULL;
+	/* if num is zero */
+	/*if (!num)
+		return _strdup("0");
+
+	/* null terminate buf, and set i at end */
+	/*buf[65] = '\0';
+	i = 65;
+
+	if (num > 0) {  /* if positive... */
+		/*while (num) { /* until num is 0... */
+					  /* go left 1 digit, divide by radix, and set digit to remainder */
+		/*	buf[--i] = digits[num % rad];
+			num /= rad;
+		}
+	}
+	else {    /* same for negative, but negate the modulus and prefix a '-' */
+		/*while (num) {
+			buf[--i] = digits[-(num % rad)];
+			num /= rad;
+		}
+		buf[--i] = '-';
+	}
+	/* return a duplicate of the used portion of buf */
+	/*return _strdup(buf + i);
+
+}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ //C++ Program to Convert a Decimal Base to Any Base
+
+//#include<iostream>
+//#include <cstdio>
+//using namespace std;
+
+
+// Convert a Decimal Base to Any Base
+
+	 void convert10tob(int N, int b)
+ {
+		 
+
+	 if (N == 0)
+		 return;
+
+	 int remainder, division,i=65;
+	 char letter;
+	 char buf[66];
+
+	 int x = N;
+	 remainder = (x % b);
+	 if (remainder >= 10)
+		cout<< "remainder: " << (letter = conversiontoChar(remainder))<<endl;
+	 else cout << "remainder: " << remainder << endl;
+	  
+	 cout << "division: " << (division = (x /= b)) << endl;
+	 if (division > 0)
+		 convert10tob(division, b);
+
+	 return;
+ }
+	
+	
+	
+
+	char conversiontoChar ( int remainder)
+	 {
+
+		char digits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		int i=65;
+		char buf[66];   /* enough space for any 64-bit in base 2 */
+		digits[remainder];
+		return digits[remainder];
+
+	 }
+	
+	/*if (N == 0)
+		return;
+	int x = N % b;
+	N /= b;
+	if (x < 0)
+		N += 1;
+	else convert10tob(N, b);
+	if (x < 0)
+		cout << x + (b* -1);
+	else cout << x << endl;
+	//cout << (x < 0 ? x + (b * -1) : x);
+	return;*/
+/*}
+
+
+int main()
+{
+	int N, b;
+	cout << "Enter the integer to convert(N): ";
+	cin >> N;
+	cout << "Enter the base <= N: ";
+	cin >> b;
+	if (N != 0)
+	{
+		convert10tob(N, b);
+		cout << endl;
+	}
+	else
+		cout << "0" << endl;
+	
+	system("pause");
+}*/

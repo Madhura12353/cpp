@@ -1,0 +1,10 @@
+﻿  Mid term Programming part grading.cpp
+Mid term Programming part grading.cpp(14): warning C4101: 'weight': unreferenced local variable
+Mid term Programming part grading.cpp(13): warning C4101: 'gradeOfFirstExam': unreferenced local variable
+  Generating code
+  Finished generating code
+  1 of 99 functions ( 1.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Mid term Programming part grading.vcxproj -> C:\Users\mkulkarni\Documents\Visual Studio 2015\Projects\Mid term Programming part grading\Release\Mid term Programming part grading.exe
+  Mid term Programming part grading.vcxproj -> C:\Users\mkulkarni\Documents\Visual Studio 2015\Projects\Mid term Programming part grading\Release\Mid term Programming part grading.pdb (Full PDB)

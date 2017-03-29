@@ -1,0 +1,7 @@
+﻿  Best student.cpp
+Best student.cpp(49): warning C4018: '<': signed/unsigned mismatch
+  Generating code
+  All 113 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  Best student.vcxproj -> C:\Users\mkulkarni\Documents\Visual Studio 2015\Projects\Best student\Release\Best student.exe
+  Best student.vcxproj -> C:\Users\mkulkarni\Documents\Visual Studio 2015\Projects\Best student\Release\Best student.pdb (Full PDB)
