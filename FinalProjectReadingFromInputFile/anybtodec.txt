@@ -1,7 +1,0 @@
-To convert any base number to decimal, I ask user to input a number along with its current base.
-Then I mutiply each digit with the correct power of input base and add the result. 
-The power of input base is decided based onthe position of a digit. 
-The digit at unit's place is multiplied by  basenumber to the power of zero,
- the digit at tens place is multiplied by basenumberto the power of one,
- the digit at hundread's place is mutiplied by basenumberto  to the power of two and so on 
-until all the digits of the input number are covered. Then result of each multiplication is added and result is displayed. 
